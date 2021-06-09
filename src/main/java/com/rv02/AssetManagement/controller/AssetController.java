@@ -1,5 +1,6 @@
 package com.rv02.AssetManagement.controller;
 
+import com.rv02.AssetManagement.exceptionHandling.DataNotFoundException;
 import com.rv02.AssetManagement.model.Asset;
 import com.rv02.AssetManagement.service.AssetService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,5 +30,19 @@ public class AssetController {
     @GetMapping
     public List<Asset> getAssetsList() {
         return assetService.getAssets();
+    }
+
+    @GetMapping(path = "/{name}")
+    public List<Asset> searchAssetsByName(@PathVariable String name) {
+        return assetService.getAssetByName(name);
+    }
+
+    @PutMapping(path = "/{id}")
+    public ResponseEntity<Asset> updateAsset(@PathVariable int id,
+                                             @Valid @RequestBody Asset newAsset) {
+        Asset oldAsset = assetService.getAsset(id)
+                .orElseThrow(DataNotFoundException::new);
+        Asset updated = assetService.getUpdatedAsset(oldAsset, newAsset);
+        return ResponseEntity.ok(updated);
     }
 }

@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class AssetService {
@@ -23,5 +24,20 @@ public class AssetService {
 
     public List<Asset> getAssets() {
         return assetRepository.findAll();
+    }
+
+    public Optional<Asset> getAsset(int id) {
+        return assetRepository.findById(id);
+    }
+
+    public Asset getUpdatedAsset(Asset oldAsset, Asset newAsset) {
+        oldAsset.setName(newAsset.getName());
+        oldAsset.setDate(newAsset.getDate());
+        oldAsset.setCondition(newAsset.getCondition());
+        return assetRepository.save(oldAsset);
+    }
+
+    public List<Asset> getAssetByName(String name) {
+        return assetRepository.findByNameIgnoreCase(name);
     }
 }

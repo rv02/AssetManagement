@@ -1,5 +1,6 @@
 package com.rv02.AssetManagement.controller;
 
+import com.rv02.AssetManagement.exceptionHandling.DataNotFoundException;
 import com.rv02.AssetManagement.model.Category;
 import com.rv02.AssetManagement.service.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,5 +30,14 @@ public class CategoryController {
     @ResponseBody
     public ResponseEntity<Category> createCategory(@Valid @RequestBody Category category) {
         return ResponseEntity.ok(categoryService.addCategory(category));
+    }
+
+    @PutMapping(path = "/{id}")
+    public ResponseEntity<Category> updateCategory(@PathVariable int id,
+                                                   @Valid @RequestBody Category newCategory) {
+        Category old = categoryService.getCategory(id)
+                .orElseThrow(DataNotFoundException::new);
+        Category updated = categoryService.getUpdatedCategory(old, newCategory);
+        return ResponseEntity.ok(updated);
     }
 }
