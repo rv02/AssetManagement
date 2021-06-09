@@ -1,8 +1,12 @@
 package com.rv02.AssetManagement.service;
 
 import com.rv02.AssetManagement.dao.AssetRepository;
+import com.rv02.AssetManagement.exceptionHandling.AssetAssignedException;
+import com.rv02.AssetManagement.exceptionHandling.AssetNotAssignedException;
 import com.rv02.AssetManagement.model.Asset;
 import com.rv02.AssetManagement.model.Category;
+import com.rv02.AssetManagement.model.Employee;
+import com.rv02.AssetManagement.model.Status;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -41,5 +45,30 @@ public class AssetService {
 
     public List<Asset> getAssetByName(String name) {
         return assetRepository.findByNameIgnoreCase(name);
+    }
+
+    public Asset assignAsset(Asset asset, Employee employee) {
+        if (asset.getStatus() == Status.ASSIGNED) {
+            throw new AssetAssignedException();
+        }
+        asset.setStatus(Status.ASSIGNED);
+        asset.setEmployee(employee);
+        return assetRepository.save(asset);
+    }
+
+    public Asset recoverAsset(Asset asset) {
+        if (asset.getStatus() != Status.ASSIGNED) {
+            throw new AssetNotAssignedException();
+        }
+        asset.setEmployee(null);
+        asset.setStatus(Status.RECOVERED);
+        return assetRepository.save(asset);
+    }
+
+    public void deleteAsset(Asset asset) {
+        if (asset.getStatus() == Status.ASSIGNED) {
+            throw new AssetAssignedException();
+        }
+        assetRepository.deleteById(asset.getId());
     }
 }

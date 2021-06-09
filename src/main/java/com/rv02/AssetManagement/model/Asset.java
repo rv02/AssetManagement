@@ -1,6 +1,6 @@
 package com.rv02.AssetManagement.model;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -37,10 +37,14 @@ public class Asset {
     @Enumerated(EnumType.STRING)
     private Status status = Status.AVAILABLE;
 
-    @JsonManagedReference
     @ManyToOne
     @JoinColumn(name = "category_id")
     private Category category;
+
+    @ManyToOne
+    @JsonIgnore
+    @JoinColumn(name = "employee_id")
+    private Employee employee;
 
     public Asset(String name, LocalDate date, String condition, Category category) {
         this.name = name;
@@ -99,5 +103,13 @@ public class Asset {
 
     public void setCategory(Category category) {
         this.category = category;
+    }
+
+    public Employee getEmployee() {
+        return employee;
+    }
+
+    public void setEmployee(Employee employee) {
+        this.employee = employee;
     }
 }

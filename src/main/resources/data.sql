@@ -1,6 +1,6 @@
 --Before each startup delete all rows from Employee
 --And reset IDENTITY
-TRUNCATE TABLE employee;
+--TRUNCATE TABLE employee;
 
 --Populating the database with dummy values
 --Now user can assume Employee database with these values

@@ -12,6 +12,8 @@ import java.util.HashMap;
 public class ControllerExceptionHandler {
 
     private static final String NOT_FOUND_MESSAGE = "No Entry Match for Given Data";
+    private static final String ASSET_ASSIGNED_MESSAGE = "The given asset is assigned to a different employee";
+    private static final String ASSET_NOT_ASSIGNED_MESSAGE = "The given asset is not assigned to any employee";
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler({MethodArgumentNotValidException.class,
@@ -31,4 +33,18 @@ public class ControllerExceptionHandler {
         response.put("error", e.getClass().getSimpleName());
         return response;
     }
+
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler({AssetAssignedException.class, AssetNotAssignedException.class})
+    public HashMap<String, String> handleAssetStatusException(Exception e) {
+        HashMap<String, String> response = new HashMap<>();
+        if (e instanceof AssetAssignedException) {
+            response.put("message", ASSET_ASSIGNED_MESSAGE);
+        } else if (e instanceof AssetNotAssignedException) {
+            response.put("message", ASSET_NOT_ASSIGNED_MESSAGE);
+        }
+        response.put("error", e.getClass().getSimpleName());
+        return response;
+    }
+
 }
