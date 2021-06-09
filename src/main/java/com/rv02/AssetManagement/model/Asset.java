@@ -22,15 +22,15 @@ public class Asset {
     @NotBlank(message = "Asset names should not be empty")
     private String name;
 
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    @DateTimeFormat(pattern = "yyyy/MM/dd")
     @NotNull(message = "Please provide a date.")
     @Column
     private LocalDate date;
 
-    @Column(name = "condition-notes")
+    @Column(name = "condition_notes")
     private String condition;
 
-    @Column(name = "assignment-status")
+    @Column(name = "assignment_status")
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     @Enumerated(EnumType.STRING)
     private Status status;
