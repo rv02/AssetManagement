@@ -5,6 +5,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "Category")
@@ -22,6 +24,11 @@ public class Category {
     @Column
     @NotBlank
     private String description;
+
+    @OneToMany(mappedBy = "category", cascade = CascadeType.ALL,
+            fetch = FetchType.LAZY)
+    @JsonIgnore
+    private List<Asset> assetList = new ArrayList<>();
 
     public Category(int id, String name, String description) {
         this.id = id;
@@ -55,5 +62,13 @@ public class Category {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public List<Asset> getAssetList() {
+        return assetList;
+    }
+
+    public void setAssetList(List<Asset> assetList) {
+        this.assetList = assetList;
     }
 }

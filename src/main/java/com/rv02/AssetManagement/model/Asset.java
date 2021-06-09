@@ -1,12 +1,12 @@
 package com.rv02.AssetManagement.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Past;
 import java.time.LocalDate;
 
 @Entity
@@ -25,6 +25,7 @@ public class Asset {
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     @NotNull(message = "Please provide a date.")
     @Column
+    @Past(message = "Purchase date should be in the past")
     private LocalDate date;
 
     @Column(name = "condition_notes")
@@ -35,15 +36,21 @@ public class Asset {
     @Enumerated(EnumType.STRING)
     private Status status = Status.AVAILABLE;
 
-    public Asset(String name, LocalDate date, String condition) {
+    @ManyToOne
+    @JoinColumn(name = "category_id")
+    private Category category;
+
+    public Asset(String name, LocalDate date, String condition, Category category) {
         this.name = name;
         this.date = date;
         this.condition = condition;
+        this.category = category;
     }
 
-    public Asset(String name, LocalDate date) {
+    public Asset(String name, LocalDate date, Category category) {
         this.name = name;
         this.date = date;
+        this.category = category;
     }
 
     public Asset() {}
@@ -82,5 +89,13 @@ public class Asset {
 
     public void setStatus(Status status) {
         this.status = status;
+    }
+
+    public Category getCategory() {
+        return category;
+    }
+
+    public void setCategory(Category category) {
+        this.category = category;
     }
 }

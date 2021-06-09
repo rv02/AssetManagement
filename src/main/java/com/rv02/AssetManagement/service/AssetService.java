@@ -2,6 +2,7 @@ package com.rv02.AssetManagement.service;
 
 import com.rv02.AssetManagement.dao.AssetRepository;
 import com.rv02.AssetManagement.model.Asset;
+import com.rv02.AssetManagement.model.Category;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -18,7 +19,8 @@ public class AssetService {
         this.assetRepository = assetRepository;
     }
 
-    public Asset addAsset(Asset asset) {
+    public Asset addAsset(Asset asset, Category category) {
+        asset.setCategory(category);
         return assetRepository.save(asset);
     }
 
