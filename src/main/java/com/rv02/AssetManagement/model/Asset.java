@@ -1,5 +1,6 @@
 package com.rv02.AssetManagement.model;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -36,6 +37,7 @@ public class Asset {
     @Enumerated(EnumType.STRING)
     private Status status = Status.AVAILABLE;
 
+    @JsonManagedReference
     @ManyToOne
     @JoinColumn(name = "category_id")
     private Category category;

@@ -1,6 +1,6 @@
 package com.rv02.AssetManagement.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import javax.persistence.*;
@@ -25,9 +25,9 @@ public class Category {
     @NotBlank
     private String description;
 
+    @JsonBackReference
     @OneToMany(mappedBy = "category", cascade = CascadeType.ALL,
             fetch = FetchType.LAZY)
-    @JsonIgnore
     private List<Asset> assetList = new ArrayList<>();
 
     public Category(int id, String name, String description) {
