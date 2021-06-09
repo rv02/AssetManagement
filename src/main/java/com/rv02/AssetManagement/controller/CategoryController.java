@@ -20,12 +20,12 @@ public class CategoryController {
         this.categoryService = categoryService;
     }
 
-    @GetMapping(path = "/")
+    @GetMapping
     public List<Category> getCategoriesList() {
         return categoryService.getCategories();
     }
 
-    @PostMapping(path = "/", consumes = "application/json")
+    @PostMapping(consumes = "application/json")
     @ResponseBody
     public ResponseEntity<Category> createCategory(@Valid @RequestBody Category category) {
         return ResponseEntity.ok(categoryService.addCategory(category));

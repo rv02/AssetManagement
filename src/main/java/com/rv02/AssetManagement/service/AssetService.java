@@ -17,8 +17,8 @@ public class AssetService {
         this.assetRepository = assetRepository;
     }
 
-    public void addAsset(Asset asset) {
-        assetRepository.save(asset);
+    public Asset addAsset(Asset asset) {
+        return assetRepository.save(asset);
     }
 
     public List<Asset> getAssets() {
