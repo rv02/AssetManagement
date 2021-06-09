@@ -7,7 +7,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
-import java.util.Date;
+import java.time.LocalDate;
 
 @Entity
 @Table(name = "Asset")
@@ -24,28 +24,32 @@ public class Asset {
 
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     @NotNull(message = "Please provide a date.")
-    private Date date;
+    @Column
+    private LocalDate date;
 
     @Column(name = "condition-notes")
     private String condition;
 
     @Column(name = "assignment-status")
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
+    @Enumerated(EnumType.STRING)
     private Status status;
 
-    public Asset(String name, Date date, String condition) {
+    public Asset(String name, LocalDate date, String condition) {
         this.name = name;
         this.date = date;
         this.condition = condition;
         this.status = Status.AVAILABLE;
     }
 
-    public Asset(String name, Date date) {
+    public Asset(String name, LocalDate date) {
         this.name = name;
         this.date = date;
         this.condition = "";
         this.status = Status.AVAILABLE;
     }
+
+    public Asset() {}
 
     public int getId() {
         return id;
@@ -59,11 +63,11 @@ public class Asset {
         this.name = name;
     }
 
-    public Date getDate() {
+    public LocalDate getDate() {
         return date;
     }
 
-    public void setDate(Date date) {
+    public void setDate(LocalDate date) {
         this.date = date;
     }
 
