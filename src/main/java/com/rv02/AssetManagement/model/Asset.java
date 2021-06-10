@@ -53,6 +53,16 @@ public class Asset {
         this.category = category;
     }
 
+    public Asset(int id, String name, LocalDate date, String condition, Status status, Category category, Employee employee) {
+        this.id = id;
+        this.name = name;
+        this.date = date;
+        this.condition = condition;
+        this.status = status;
+        this.category = category;
+        this.employee = employee;
+    }
+
     public Asset(String name, LocalDate date, Category category) {
         this.name = name;
         this.date = date;
