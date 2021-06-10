@@ -10,37 +10,64 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Past;
 import java.time.LocalDate;
 
+/**
+ * Entity class for Asset table in db
+ */
 @Entity
 @Table(name = "Asset")
 public class Asset {
 
+    /**
+     * Unique Id with Identity generation
+     */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private int id;
 
+    /**
+     * Name of the asset. Should not be empty
+     */
     @Column
     @NotBlank(message = "Asset names should not be empty")
     private String name;
 
+    /**
+     * Date of purchase in "yyyy-MM-dd" format
+     */
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     @NotNull(message = "Please provide a date.")
     @Column
     @Past(message = "Purchase date should be in the past")
     private LocalDate date;
 
+    /**
+     * Condition notes can be empty
+     */
     @Column(name = "condition_notes")
     private String condition = "";
 
+    /**
+     * Status of availability of the asset
+     * @see {@link Status}
+     */
     @Column(name = "assignment_status")
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     @Enumerated(EnumType.STRING)
     private Status status = Status.AVAILABLE;
 
+    /**
+     * Mapped to category to which asset belongs
+     * <strong>Foreign Key</strong>
+     */
     @ManyToOne
     @JoinColumn(name = "category_id")
     private Category category;
 
+    /**
+     * When assigned to an employee it maps to it
+     * <strong>Foreign Key</strong>
+     */
     @ManyToOne
     @JsonIgnore
     @JoinColumn(name = "employee_id")

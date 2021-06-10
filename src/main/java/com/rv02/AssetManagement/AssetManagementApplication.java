@@ -7,6 +7,12 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
+/**
+ * The main application class which runs SpringBootApplication
+ *
+ * <p>The 3 repositories CategoryRepository, AssetRepository, Employee
+ * Repository are enabled on startup</p>
+ */
 @SpringBootApplication
 @EnableJpaRepositories(basePackageClasses = {CategoryRepository.class,
 		AssetRepository.class, EmployeeRepository.class})
